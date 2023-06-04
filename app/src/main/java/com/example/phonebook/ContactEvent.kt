@@ -15,5 +15,10 @@ sealed interface ContactEvent {
     object GetContacts: ContactEvent
     object ShowSortTypes: ContactEvent
     object HideSortTypes: ContactEvent
-    object UpdateContactInfo: ContactEvent
+    data class UpdateContactInfo(
+        val firstName: String,
+        val lastName: String,
+        val phoneNumber: Int,
+        val id: Int
+    ) : ContactEvent
 }

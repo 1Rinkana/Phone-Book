@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ContactViewModel(
@@ -38,7 +37,16 @@ class ContactViewModel(
 
     fun onEvent(event: ContactEvent) {
         when(event) {
-
+            is ContactEvent.UpdateContactInfo -> {
+                viewModelScope.launch {
+                    dao.updateContactInfo(
+                        event.firstName,
+                        event.lastName,
+                        event.phoneNumber,
+                        event.id
+                    )
+                }
+            }
             is ContactEvent.DeleteContact -> {
                 viewModelScope.launch {
                     dao.deleteContact(event.contact)
@@ -50,7 +58,7 @@ class ContactViewModel(
                 ) }
             }
             is ContactEvent.GetContacts -> {
-                viewModelScope.launch(newSingleThreadContext("GetUsers")) {
+                viewModelScope.launch(Dispatchers.IO) {
                     repository.getUsers()
                 }
             }
