@@ -15,6 +15,5 @@ sealed interface ContactEvent {
     object GetContacts: ContactEvent
     object ShowSortTypes: ContactEvent
     object HideSortTypes: ContactEvent
-    class ShowFullInfo(val contact: Contact): ContactEvent
-    object ReturnToMainPage: ContactEvent
+    object UpdateContactInfo: ContactEvent
 }

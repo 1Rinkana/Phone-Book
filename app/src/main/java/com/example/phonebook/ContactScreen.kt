@@ -39,7 +39,8 @@ import com.example.phonebook.dialogs.ChangeSortTypeDialog
 @Composable
 fun ContactScreen(
     state: ContactState,
-    onEvent: (ContactEvent) -> Unit
+    onEvent: (ContactEvent) -> Unit,
+    onNavigateToContactInfoScreen: (Int) -> Unit
 ) {
     Scaffold(
         floatingActionButton = {
@@ -86,7 +87,7 @@ fun ContactScreen(
                     Button(
                         border = BorderStroke(1.dp, Color.Black),
                         colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Black),
-                        onClick = { /*TODO*/ },
+                        onClick = { onNavigateToContactInfoScreen(contact.id) },
                         modifier = Modifier
                     ) {
                         Image(

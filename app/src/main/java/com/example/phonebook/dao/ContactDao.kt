@@ -28,4 +28,7 @@ interface ContactDao {
 
     @Query("SELECT * FROM contact ORDER BY phoneNumber ASC")
     fun getContactsOrderedByPhoneNumber(): Flow<List<Contact>>
+
+    @Query("UPDATE contact SET firstName=:firstName,lastName=:lastName,phoneNumber=:phoneNumber WHERE id=:id")
+    fun updateContactInfo(firstName: String, lastName: String, phoneNumber: Int, id: Int)
 }
