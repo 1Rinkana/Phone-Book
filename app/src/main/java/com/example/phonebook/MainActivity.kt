@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PhoneBookTheme {
                 val state by viewModel.state.collectAsState()
-                ContactScreen(state = state, onEvent = viewModel::onEvent)
+                Navigation(state = state, onEvent = viewModel::onEvent)
             }
         }
     }
