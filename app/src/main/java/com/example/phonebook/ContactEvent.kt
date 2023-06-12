@@ -18,7 +18,7 @@ sealed interface ContactEvent {
     data class UpdateContactInfo(
         val firstName: String,
         val lastName: String,
-        val phoneNumber: Int,
+        val phoneNumber: String,
         val id: Int
     ) : ContactEvent
 }

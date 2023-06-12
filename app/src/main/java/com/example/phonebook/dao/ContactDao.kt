@@ -17,6 +17,9 @@ interface ContactDao {
     @Delete
     suspend fun deleteContact(contact: Contact)
 
+    @Query("DELETE FROM contact")
+    suspend fun clearTable()
+
     @Query("SELECT * FROM contact")
     fun getContacts() : List<Contact>
 
@@ -30,5 +33,5 @@ interface ContactDao {
     fun getContactsOrderedByPhoneNumber(): Flow<List<Contact>>
 
     @Query("UPDATE contact SET firstName=:firstName,lastName=:lastName,phoneNumber=:phoneNumber WHERE id=:id")
-    fun updateContactInfo(firstName: String, lastName: String, phoneNumber: Int, id: Int)
+    fun updateContactInfo(firstName: String, lastName: String, phoneNumber: String, id: Int)
 }

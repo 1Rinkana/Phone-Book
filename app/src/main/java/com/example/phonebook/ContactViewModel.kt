@@ -38,7 +38,7 @@ class ContactViewModel(
     fun onEvent(event: ContactEvent) {
         when(event) {
             is ContactEvent.UpdateContactInfo -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO){
                     dao.updateContactInfo(
                         event.firstName,
                         event.lastName,

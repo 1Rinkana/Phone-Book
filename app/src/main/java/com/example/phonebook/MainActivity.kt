@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.phonebook.data.remote.dto.ClientApi
 import com.example.phonebook.data.remote.dto.UsersRepository
