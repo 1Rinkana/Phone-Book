@@ -1,35 +1,42 @@
 package com.example.phonebook
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Edit
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.phonebook.ui.Screen
+import com.example.phonebook.ui.theme.primary
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,82 +44,95 @@ import coil.compose.rememberAsyncImagePainter
 fun ContactInfoScreen(
     state: ContactState,
     onEvent: (ContactEvent) -> Unit,
-    contactId: Int
+    contactId: Int,
+    navController: NavController,
+    onNavigateToEditInfoScreen: (Int) -> Unit
 ) {
     val contact = state.contacts.find { it.id == contactId } ?: state.contacts[0]
-    var firstNameTxt by remember { mutableStateOf(contact.firstName) }
-    var lastNameTxt by remember { mutableStateOf(contact.lastName) }
-    var phoneNumber by remember { mutableStateOf(contact.phoneNumber) }
-    val context = LocalContext.current
+
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-                onEvent(ContactEvent.UpdateContactInfo(
-                    firstName = firstNameTxt,
-                    lastName = lastNameTxt,
-                    phoneNumber = phoneNumber,
-                    id = contactId
-                ))
-                Toast.makeText(context, "Contact saved", Toast.LENGTH_SHORT).show()
-            }){
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
-            }
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Contact info")
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = primary
+                ),
+                actions = {
+                    IconButton(
+                        onClick = {
+                            onEvent(ContactEvent.DeleteContact(contact))
+                            navController.navigate(route = Screen.ContactScreen.route)
+                        }
+                    ) {
+                        Icon(Icons.Outlined.Delete, "Delete contact")
+                    }
+                    IconButton(
+                        onClick = { onNavigateToEditInfoScreen(contact.id) }
+                    ) {
+                        Icon(Icons.Rounded.Edit, "Edit contact")
+                    }
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { navController.navigate(route = Screen.ContactScreen.route) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowBack,
+                            contentDescription = "Go back"
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .shadow(elevation = 4.dp)
+            )
         },
-        modifier = Modifier.padding(10.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp)
         ) {
+            Spacer(modifier = Modifier.height(80.dp))
             Image(
                 painter = rememberAsyncImagePainter(contact.photo),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
-                alpha = 1f,
                 modifier = Modifier
-                    .size(200.dp)
-                    .padding(5.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .size(150.dp)
+                    .clip(CircleShape)
                     .align(Alignment.CenterHorizontally)
-                    .border(3.dp, Color.Black)
             )
-            OutlinedTextField(
-                value = firstNameTxt,
-                onValueChange = { new ->
-                    firstNameTxt = new
-                },
-                label = {
-                    Text(text = "First name")
-                },
+            Text(
+                text = "${contact.firstName} ${contact.lastName}",
+                fontStyle = FontStyle.Normal,
+                fontSize = 30.sp,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(10.dp)
             )
-            OutlinedTextField(
-                value = lastNameTxt,
-                onValueChange = { new ->
-                    lastNameTxt = new
-                },
-                label = {
-                    Text(text = "Second name")
-                },
+            ElevatedCard(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(10.dp)
-            )
-            OutlinedTextField(
-                value = phoneNumber,
-                onValueChange = { new ->
-                    phoneNumber = new
-                },
-                label = {
-                    Text(text = "Phone number")
-                },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(10.dp)
-            )
+                    .fillMaxWidth()
+                    .size(size = 70.dp)
+                    .padding(8.dp)
+                ,
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            ) {
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Text(
+                        text = "Phone number",
+                        fontSize = 15.sp
+                    )
+                    Text(
+                        text = contact.phoneNumber,
+                        fontStyle = FontStyle.Normal,
+                        fontSize = 15.sp
+                    )
+                }
+            }
         }
     }
 }

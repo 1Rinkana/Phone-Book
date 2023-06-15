@@ -74,16 +74,6 @@ fun AddContactDialog(
                     Text(text = "Save")
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                Button(
-                    onClick = { onEvent(ContactEvent.GetContacts) }
-                ) {
-                    Text(text = "Refresh")
-                }
-            }
         }
     )
 }

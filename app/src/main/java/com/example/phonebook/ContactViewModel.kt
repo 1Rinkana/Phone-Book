@@ -35,6 +35,9 @@ class ContactViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), ContactState())
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> get() = _isRefreshing.asStateFlow()
+
     fun onEvent(event: ContactEvent) {
         when(event) {
             is ContactEvent.UpdateContactInfo -> {
