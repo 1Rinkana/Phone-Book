@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.phonebook.ContactEvent
 import com.example.phonebook.ContactState
@@ -68,12 +70,19 @@ fun AddContactDialog(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.BottomStart
             ) {
-                Button(onClick = {
-                    onEvent(ContactEvent.SaveContact)
-                }) {
-                    Text(text = "Save")
+                Button(
+                    onClick = {
+                        onEvent(ContactEvent.SaveContact)
+                    },
+                    colors = ButtonDefaults.buttonColors(Color.LightGray)
+                ) {
+                    Text(
+                        text = "Save",
+                        color = Color.Black
+                    )
                 }
             }
-        }
+        },
+        containerColor = Color.White
     )
 }

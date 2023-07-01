@@ -37,9 +37,10 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.phonebook.ui.Screen
 import com.example.phonebook.ui.theme.primary
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
 @Composable
 fun ContactInfoScreen(
     state: ContactState,
@@ -49,6 +50,7 @@ fun ContactInfoScreen(
     onNavigateToEditInfoScreen: (Int) -> Unit
 ) {
     val contact = state.contacts.find { it.id == contactId } ?: state.contacts[0]
+
 
     Scaffold(
         topBar = {
@@ -62,8 +64,8 @@ fun ContactInfoScreen(
                 actions = {
                     IconButton(
                         onClick = {
-                            onEvent(ContactEvent.DeleteContact(contact))
                             navController.navigate(route = Screen.ContactScreen.route)
+                            onEvent(ContactEvent.DeleteContact(contact))
                         }
                     ) {
                         Icon(Icons.Outlined.Delete, "Delete contact")

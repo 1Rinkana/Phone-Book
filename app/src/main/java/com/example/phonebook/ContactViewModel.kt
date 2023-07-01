@@ -8,6 +8,7 @@ import com.example.phonebook.ui.Avatar
 import com.example.phonebook.ui.Contact
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -52,6 +53,7 @@ class ContactViewModel(
             }
             is ContactEvent.DeleteContact -> {
                 viewModelScope.launch {
+                    delay(500L)
                     dao.deleteContact(event.contact)
                 }
             }

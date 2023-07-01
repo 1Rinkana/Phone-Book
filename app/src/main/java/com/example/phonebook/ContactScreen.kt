@@ -64,7 +64,7 @@ fun ContactScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Change sort type")
+                    Text(text = "Contacts")
                 },
                 navigationIcon = {
                     IconButton(onClick = {
