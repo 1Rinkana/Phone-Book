@@ -9,8 +9,11 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
+import com.example.phonebook.dao.ContactDatabase
 import com.example.phonebook.data.remote.dto.ClientApi
 import com.example.phonebook.data.remote.dto.UsersRepository
+import com.example.phonebook.ui.ContactViewModel
+import com.example.phonebook.ui.screens.navigation.Navigation
 import com.example.phonebook.ui.theme.PhoneBookTheme
 
 class MainActivity : ComponentActivity() {

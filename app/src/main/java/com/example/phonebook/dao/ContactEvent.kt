@@ -1,5 +1,6 @@
-package com.example.phonebook
+package com.example.phonebook.dao
 
+import com.example.phonebook.ui.dialogs.SortType
 import com.example.phonebook.ui.Contact
 
 sealed interface ContactEvent {
@@ -19,6 +20,6 @@ sealed interface ContactEvent {
         val firstName: String,
         val lastName: String,
         val phoneNumber: String,
-        val id: Int
+        val id: Int,
     ) : ContactEvent
 }

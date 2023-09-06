@@ -1,4 +1,4 @@
-package com.example.phonebook
+package com.example.phonebook.ui.screens.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,7 +6,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.phonebook.dao.ContactEvent
+import com.example.phonebook.dao.ContactState
+import com.example.phonebook.ui.ContactViewModel
 import com.example.phonebook.ui.Screen
+import com.example.phonebook.ui.screens.ContactInfoScreen
+import com.example.phonebook.ui.screens.ContactScreen
+import com.example.phonebook.ui.screens.EditInfoScreen
 
 @Composable
 fun Navigation(
@@ -36,7 +42,7 @@ fun Navigation(
                     type = NavType.IntType
                 }
             )
-        ) {
+        ) { it ->
             val param = it.arguments?.getInt("id")
             if (param != null) {
                 ContactInfoScreen(
@@ -57,7 +63,7 @@ fun Navigation(
                     type = NavType.IntType
                 }
             )
-        ) {
+        ) { it ->
             val param = it.arguments?.getInt("id")
             if (param != null) {
                 EditInfoScreen(
@@ -66,10 +72,9 @@ fun Navigation(
                     contactId = param,
                     onNavigateToContactInfoScreen = {
                         navController.navigate("${Screen.ContactInfoScreen.route}/$it")
-                    }
+                    },
                 )
             }
         }
     }
-
 }

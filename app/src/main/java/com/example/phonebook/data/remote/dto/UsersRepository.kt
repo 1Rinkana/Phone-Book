@@ -15,7 +15,7 @@ class UsersRepository(private val randomUsers: ClientApi, private val usersDao: 
                     firstName = user.name.first,
                     lastName = user.name.last,
                     phoneNumber = user.phone,
-                    photo = user.picture.medium
+                    photo = user.picture.medium,
                 )
                 usersDao.upsertContact(newContact)
                 contactList.add(newContact)

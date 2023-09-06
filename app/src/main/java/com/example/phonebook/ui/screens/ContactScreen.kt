@@ -1,4 +1,4 @@
-package com.example.phonebook
+package com.example.phonebook.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +39,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.phonebook.dialogs.AddContactDialog
-import com.example.phonebook.dialogs.ChangeSortTypeDialog
+import com.example.phonebook.dao.ContactState
+import com.example.phonebook.ui.ContactViewModel
+import com.example.phonebook.dao.ContactEvent
+import com.example.phonebook.ui.dialogs.AddContactDialog
+import com.example.phonebook.ui.dialogs.ChangeSortTypeDialog
 import com.example.phonebook.ui.theme.primary
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -52,12 +55,12 @@ fun ContactScreen(
     state: ContactState,
     onEvent: (ContactEvent) -> Unit,
     viewModel: ContactViewModel,
-    onNavigateToContactInfoScreen: (Int) -> Unit
+    onNavigateToContactInfoScreen: (Int) -> Unit,
 ) {
     val systemUiController = rememberSystemUiController()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     systemUiController.setSystemBarsColor(
-        color = primary
+        color = primary,
     )
 
     Scaffold(
@@ -67,31 +70,25 @@ fun ContactScreen(
                     Text(text = "Contacts")
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        onEvent(ContactEvent.ShowSortTypes)
-                    }) {
+                    IconButton(onClick = { onEvent(ContactEvent.ShowSortTypes) }) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "Change Sort Type"
+                            contentDescription = "Change Sort Type",
                         )
                     }
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = primary
+                    containerColor = primary,
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .shadow(
-                        elevation = 4.dp
-                    )
+                    .shadow(elevation = 4.dp),
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    onEvent(ContactEvent.ShowDialog)
-                },
-                containerColor = Color.LightGray
+                onClick = { onEvent(ContactEvent.ShowDialog) },
+                containerColor = Color.LightGray,
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add contact")
             }
@@ -100,13 +97,13 @@ fun ContactScreen(
         if (state.isAddingContact) {
             AddContactDialog(state = state, onEvent = onEvent)
         }
+
         if (state.isChangingSortType) {
             ChangeSortTypeDialog(state = state, onEvent = onEvent)
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(8.dp)
-        )
+
+        Spacer(modifier = Modifier.fillMaxWidth().height(8.dp))
+
         SwipeRefresh(
             state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
             onRefresh = { onEvent(ContactEvent.GetContacts) }
@@ -140,15 +137,15 @@ fun ContactScreen(
                                     .size(50.dp)
                                     .clip(CircleShape)
                             )
+
                             Spacer(modifier = Modifier.width(width = 8.dp))
-                            Column(
-                                modifier = Modifier
-                                    .weight(1f)
-                            ) {
+
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = "${contact.firstName} ${contact.lastName}",
-                                    fontSize = 20.sp
+                                    fontSize = 20.sp,
                                 )
+
                                 Text(text = contact.phoneNumber, fontSize = 12.sp)
                             }
                         }

@@ -1,11 +1,12 @@
-package com.example.phonebook
+package com.example.phonebook.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.phonebook.dao.ContactState
+import com.example.phonebook.ui.dialogs.SortType
 import com.example.phonebook.dao.ContactDao
+import com.example.phonebook.dao.ContactEvent
 import com.example.phonebook.data.remote.dto.UsersRepository
-import com.example.phonebook.ui.Avatar
-import com.example.phonebook.ui.Contact
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -47,7 +48,7 @@ class ContactViewModel(
                         event.firstName,
                         event.lastName,
                         event.phoneNumber,
-                        event.id
+                        event.id,
                     )
                 }
             }
@@ -59,7 +60,7 @@ class ContactViewModel(
             }
             ContactEvent.HideDialog -> {
                 _state.update { it.copy(
-                    isAddingContact = false
+                    isAddingContact = false,
                 ) }
             }
             is ContactEvent.GetContacts -> {
@@ -71,7 +72,7 @@ class ContactViewModel(
                 val firstName = state.value.firstName
                 val lastName = state.value.lastName
                 val phoneNumber = state.value.phoneNumber
-                val photo = state.value.photo.ifBlank { Avatar().defoltAvatar }
+                val photo = state.value.photo.ifBlank { Avatar().standardAvatar }
 
                 if(firstName.isBlank() || lastName.isBlank() || phoneNumber.isBlank()) {
                     return
@@ -80,7 +81,7 @@ class ContactViewModel(
                     firstName = firstName,
                     lastName = lastName,
                     phoneNumber = phoneNumber,
-                    photo = photo
+                    photo = photo,
                 )
                 viewModelScope.launch(Dispatchers.IO) {
                     dao.upsertContact(contact)
@@ -90,7 +91,7 @@ class ContactViewModel(
                     firstName = "",
                     lastName = "",
                     phoneNumber = "",
-                    photo = ""
+                    photo = "",
                 ) }
             }
             is ContactEvent.SetFirstName -> {

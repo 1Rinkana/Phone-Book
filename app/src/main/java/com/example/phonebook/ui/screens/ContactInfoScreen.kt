@@ -1,6 +1,5 @@
-package com.example.phonebook
+package com.example.phonebook.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,19 +34,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.phonebook.dao.ContactState
+import com.example.phonebook.dao.ContactEvent
 import com.example.phonebook.ui.Screen
 import com.example.phonebook.ui.theme.primary
-import kotlinx.coroutines.DelicateCoroutinesApi
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class, DelicateCoroutinesApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactInfoScreen(
     state: ContactState,
     onEvent: (ContactEvent) -> Unit,
     contactId: Int,
     navController: NavController,
-    onNavigateToEditInfoScreen: (Int) -> Unit
+    onNavigateToEditInfoScreen: (Int) -> Unit,
 ) {
     val contact = state.contacts.find { it.id == contactId } ?: state.contacts[0]
 
@@ -70,6 +69,7 @@ fun ContactInfoScreen(
                     ) {
                         Icon(Icons.Outlined.Delete, "Delete contact")
                     }
+
                     IconButton(
                         onClick = { onNavigateToEditInfoScreen(contact.id) }
                     ) {
@@ -91,12 +91,14 @@ fun ContactInfoScreen(
                     .shadow(elevation = 4.dp)
             )
         },
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(padding)
         ) {
             Spacer(modifier = Modifier.height(80.dp))
+
             Image(
                 painter = rememberAsyncImagePainter(contact.photo),
                 contentDescription = "avatar",
@@ -104,34 +106,32 @@ fun ContactInfoScreen(
                 modifier = Modifier
                     .size(150.dp)
                     .clip(CircleShape)
-                    .align(Alignment.CenterHorizontally)
+                    .align(Alignment.CenterHorizontally),
             )
+
             Text(
                 text = "${contact.firstName} ${contact.lastName}",
                 fontStyle = FontStyle.Normal,
                 fontSize = 30.sp,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             )
+
             ElevatedCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(size = 70.dp)
-                    .padding(8.dp)
-                ,
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
+                    .padding(8.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
                 Column(modifier = Modifier.padding(8.dp)) {
                     Text(
                         text = "Phone number",
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
                     )
                     Text(
                         text = contact.phoneNumber,
                         fontStyle = FontStyle.Normal,
-                        fontSize = 15.sp
+                        fontSize = 15.sp,
                     )
                 }
             }

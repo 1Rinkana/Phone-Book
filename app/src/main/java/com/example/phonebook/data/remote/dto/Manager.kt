@@ -13,4 +13,3 @@ data class Name(val first: String, val last: String)
 
 @Serializable
 data class Picture(val medium: String)
-
