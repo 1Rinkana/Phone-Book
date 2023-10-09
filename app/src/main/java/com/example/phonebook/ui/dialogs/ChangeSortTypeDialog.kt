@@ -8,11 +8,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.phonebook.dao.ContactEvent
 import com.example.phonebook.dao.ContactState
@@ -26,7 +30,10 @@ fun ChangeSortTypeDialog(
     AlertDialog(
         modifier = modifier,
         onDismissRequest = { onEvent(ContactEvent.HideSortTypes) },
-        title = { Text(text = "Select Sort Type") },
+        title = { Text(
+            text = "Select Sort Type",
+            style = MaterialTheme.typography.titleLarge,
+        ) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -39,9 +46,15 @@ fun ChangeSortTypeDialog(
                         RadioButton(
                             selected = state.sortType == sortType,
                             onClick = { onEvent(ContactEvent.SortContacts(sortType)) },
+                            colors = RadioButtonDefaults.colors(
+                                selectedColor = Color.Black,
+                            ),
                         )
 
-                        Text(text = sortType.name.lowercase().replace("_", " "))
+                        Text(
+                            text = sortType.name.lowercase().replace("_", " "),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
                     }
                 }
             }
@@ -50,12 +63,20 @@ fun ChangeSortTypeDialog(
         confirmButton = {
             Box(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.BottomStart,
+                contentAlignment = Alignment.BottomEnd,
             ) {
-                Button(onClick = { onEvent(ContactEvent.HideSortTypes) }) {
-                    Text(text = "Confirm")
+                Button(
+                    onClick = { onEvent(ContactEvent.HideSortTypes) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+                ) {
+                    Text(
+                        text = "Confirm",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
                 }
             }
-        }
+        },
+
+        containerColor = Color.LightGray,
     )
 }

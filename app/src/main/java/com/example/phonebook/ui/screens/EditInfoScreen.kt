@@ -1,7 +1,6 @@
 package com.example.phonebook.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,8 +32,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.phonebook.dao.ContactState
 import com.example.phonebook.dao.ContactEvent
+import com.example.phonebook.dao.ContactState
 import com.example.phonebook.ui.theme.primary
 
 
@@ -79,27 +76,22 @@ fun EditInfoScreen(
         },
     ) { padding->
         Column(
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
         ) {
+            Spacer(modifier = Modifier.weight(0.1f))
+            
             OutlinedTextField(
                 value = firstNameTxt,
                 onValueChange = { new -> firstNameTxt = new },
                 label = { Text(text = "First name") },
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
-            Divider(
-                color = Color.Black,
-                thickness = 1.dp,
-                modifier = Modifier
-                    .width(40.dp)
-                    .align(Alignment.CenterHorizontally),
-            )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Center,
             ) {
                 OutlinedTextField(
@@ -119,46 +111,16 @@ fun EditInfoScreen(
                         .padding(8.dp),
                 )
             }
-
-            Row(
-                modifier = Modifier
-                    .width(316.dp)
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Checkbox(
-                    checked = true,
-                    onCheckedChange = null,
-                    modifier = Modifier.padding(4.dp),
-                    enabled = true,
-                )
-                Text(
-                    text = "Enable big rest time (extended rest every X rounds).",
-                    modifier = Modifier,
-                    color = Color.Black,
-                )
-                Box(modifier = Modifier.width(24.dp))
-            }
-
-            OutlinedTextField(
-                value = lastNameTxt,
-                onValueChange = { new -> lastNameTxt = new },
-                label = { Text(text = "Second name") },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp),
-            )
 
             OutlinedTextField(
                 value = phoneNumber,
                 onValueChange = { new -> phoneNumber = new },
                 label = { Text(text = "Phone number") },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(8.dp),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
             )
-            Spacer(modifier = Modifier.height(60.dp))
+
+            Spacer(modifier = Modifier.weight(1f))
+
             Button(
                 onClick = {
                     onEvent(
@@ -174,13 +136,15 @@ fun EditInfoScreen(
                     .align(Alignment.CenterHorizontally)
                     .height(60.dp)
                     .width(160.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
             ) {
                 Text(
                     text = "Confirm",
                     fontSize = 20.sp,
                 )
             }
+
+            Spacer(modifier = Modifier.weight(0.1f))
         }
     }
 }
